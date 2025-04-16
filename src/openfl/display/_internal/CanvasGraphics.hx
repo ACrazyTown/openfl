@@ -671,7 +671,8 @@ class CanvasGraphics
 		var setStart = false;
 
 		windingRule = CanvasWindingRule.EVENODD;
-		setSmoothing(true);
+		// setSmoothing(true);
+		setSmoothing(false);
 
 		var hasPath:Bool = false;
 

@@ -505,7 +505,8 @@ class CairoGraphics
 		var setStart = false;
 
 		cairo.fillRule = EVEN_ODD;
-		cairo.antialias = SUBPIXEL;
+		// cairo.antialias = SUBPIXEL;
+		cairo.antialias = NONE;
 
 		var hasPath:Bool = false;
 
