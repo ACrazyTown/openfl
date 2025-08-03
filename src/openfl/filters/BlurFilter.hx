@@ -116,6 +116,8 @@ import lime._internal.graphics.ImageDataUtil; // TODO
 	@:noCompletion private var __horizontalPasses:Int;
 	@:noCompletion private var __quality:Int;
 	@:noCompletion private var __verticalPasses:Int;
+	@:noCompletion private var __passScales:Array<Float> = [1.0, 2.1, 2.7, 3.1, 3.5, 3.8, 4.0, 4.2, 4.4, 4.6, 5.0, 6.0, 6.0, 7.0, 7.0];
+	@:noCompletion private var __scale:Float = 1;
 
 	#if openfljs
 	@:noCompletion private static function __init__()
@@ -225,7 +227,7 @@ import lime._internal.graphics.ImageDataUtil; // TODO
 		{
 			__blurX = value;
 			__renderDirty = true;
-			__leftExtension = (value > 0 ? Math.ceil(value) : 0);
+			__leftExtension = (value > 0 ? Math.ceil(value * __scale) : 0);
 			__rightExtension = __leftExtension;
 		}
 		return value;
@@ -242,7 +244,7 @@ import lime._internal.graphics.ImageDataUtil; // TODO
 		{
 			__blurY = value;
 			__renderDirty = true;
-			__topExtension = (value > 0 ? Math.ceil(value) : 0);
+			__topExtension = (value > 0 ? Math.ceil(value * __scale) : 0);
 			__bottomExtension = __topExtension;
 		}
 		return value;
@@ -261,6 +263,12 @@ import lime._internal.graphics.ImageDataUtil; // TODO
 		__verticalPasses = (__blurY <= 0) ? 0 : Math.round(__blurY * (value / 4)) + 1;
 
 		__numShaderPasses = __horizontalPasses + __verticalPasses;
+		__scale = __passScales[__numShaderPasses > 14 ? 14 : __numShaderPasses < 0 ? 0 : __numShaderPasses];
+
+		__topExtension = Math.round(__topExtension * __scale);
+		__bottomExtension = __topExtension;
+		__leftExtension = Math.round(__leftExtension * __scale);
+		__rightExtension = __leftExtension;
 
 		if (value != __quality) __renderDirty = true;
 		return __quality = value;
