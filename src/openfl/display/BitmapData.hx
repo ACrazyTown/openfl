@@ -962,6 +962,7 @@ class BitmapData implements IBitmapDrawable
 			}
 
 			var renderer = new OpenGLRenderer(Lib.current.stage.context3D, this);
+			renderer.__stage = Lib.current.stage;
 			renderer.__allowSmoothing = smoothing;
 			renderer.__pixelRatio = #if openfl_disable_hdpi 1 #else Lib.current.stage.window.scale #end;
 			renderer.__overrideBlendMode = blendMode;
@@ -984,6 +985,7 @@ class BitmapData implements IBitmapDrawable
 				renderer.__popMaskRect();
 				Matrix.__pool.release(clipMatrix);
 			}
+			renderer.__stage = null;
 		}
 		else
 		{
