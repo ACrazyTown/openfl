@@ -2544,7 +2544,7 @@ class Stage extends DisplayObjectContainer #if lime implements IModule #end
 		__onTouch(TouchEvent.TOUCH_BEGIN, touch, __primaryTouch == touch);
 	}
 
-	@:noCompletion private function __onLimeUpdate(deltaTime:Int):Void
+	@:noCompletion private function __onLimeUpdate(deltaTime:Float):Void
 	{
 		__deltaTime = deltaTime;
 

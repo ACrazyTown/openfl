@@ -140,7 +140,7 @@ class ContextLossTest1 extends FunctionalTest
 	}
 
 	// Event Handlers
-	private function application_onUpdate(deltaTime:Int):Void
+	private function application_onUpdate(deltaTime:Float):Void
 	{
 		// Event.ENTER_FRAME stops dispatching when context is lost
 
@@ -205,21 +205,21 @@ class ContextLossTest1 extends FunctionalTest
 		var vertexSource = "attribute vec4 aPosition;
 			attribute vec2 aTexCoord;
 			varying vec2 vTexCoord;
-			
+
 			uniform mat4 uMatrix;
-			
+
 			void main(void) {
-				
+
 				vTexCoord = aTexCoord;
 				gl_Position = uMatrix * aPosition;
-				
+
 			}";
 
 		var fragmentSource = #if !desktop "precision mediump float;" + #end
 
 		"varying vec2 vTexCoord;
 			uniform sampler2D uImage0;
-			
+
 			void main(void)
 			{
 				gl_FragColor = texture2D (uImage0, vTexCoord);
