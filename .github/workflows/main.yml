@@ -23,7 +23,7 @@ jobs:
           haxelib install hxcpp --quiet
           haxelib install format --quiet
           haxelib install hxp --quiet
-          haxelib install lime 8.1.3 --quiet
+          haxelib git lime https://github.com/ACrazyTown/lime cool-sdl3_2 --quiet
           haxelib install utest --quiet
       - name: Setup environment
         run: |
@@ -62,7 +62,7 @@ jobs:
           haxelib install hxcpp --quiet
           haxelib install format --quiet
           haxelib install hxp --quiet
-          haxelib install lime 8.1.3 --quiet
+          haxelib git lime https://github.com/ACrazyTown/lime cool-sdl3_2 --quiet
           haxelib install utest --quiet
 
       - name: Setup environment
@@ -105,7 +105,7 @@ jobs:
           haxelib install hxcpp --quiet
           haxelib install format --quiet
           haxelib install hxp --quiet
-          haxelib install lime --quiet
+          haxelib git lime https://github.com/ACrazyTown/lime cool-sdl3_2 --quiet
           haxelib install utest --quiet
 
       - name: Setup environment
@@ -233,7 +233,7 @@ jobs:
           haxelib install hxcpp --quiet
           haxelib install format --quiet
           haxelib install hxp --quiet
-          haxelib install lime --quiet
+          haxelib git lime https://github.com/ACrazyTown/lime cool-sdl3_2 --quiet
           haxelib install utest --quiet
           haxelib run lime config AIR_SDK ${{ env.AIR_HOME }}
 
@@ -307,7 +307,7 @@ jobs:
           haxelib install hxcpp --quiet
           haxelib install format --quiet
           haxelib install hxp --quiet
-          haxelib install lime --quiet
+          haxelib git lime https://github.com/ACrazyTown/lime cool-sdl3_2 --quiet
           haxelib git dox https://github.com/HaxeFoundation/dox --quiet --never
           haxelib dev openfl ${{ github.workspace }}
 
@@ -340,7 +340,7 @@ jobs:
 
       - name: Install Haxe dependencies
         run: |
-          haxelib install lime --quiet
+          haxelib git lime https://github.com/ACrazyTown/lime cool-sdl3_2 --quiet
           haxelib install actuate --quiet
           haxelib git openfl-samples https://github.com/openfl/openfl-samples --quiet
 
@@ -386,7 +386,7 @@ jobs:
 
       - name: Install Haxe dependencies
         run: |
-          haxelib install lime --quiet
+          haxelib git lime https://github.com/ACrazyTown/lime cool-sdl3_2 --quiet
           haxelib install actuate --quiet
           haxelib install genes --quiet
           haxelib git openfl-samples https://github.com/openfl/openfl-samples --quiet
@@ -441,7 +441,7 @@ jobs:
 
       - name: Install Haxe dependencies
         run: |
-          haxelib install lime --quiet
+          haxelib git lime https://github.com/ACrazyTown/lime cool-sdl3_2 --quiet
           haxelib install actuate --quiet
           haxelib git openfl-samples https://github.com/openfl/openfl-samples --quiet
 
@@ -487,7 +487,7 @@ jobs:
 
       - name: Install Haxe dependencies
         run: |
-          haxelib install lime --quiet
+          haxelib git lime https://github.com/ACrazyTown/lime cool-sdl3_2 --quiet
           haxelib install actuate --quiet
           haxelib git openfl-samples https://github.com/openfl/openfl-samples --quiet
 
