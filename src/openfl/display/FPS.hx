@@ -27,9 +27,13 @@ class FPS extends TextField
 	**/
 	public var currentFPS(default, null):Int;
 
-	@:noCompletion private var cacheCount:Int;
-	@:noCompletion private var currentTime:Float;
-	@:noCompletion private var times:Array<Float>;
+	/**
+		The current frame time, in miliseconds.
+	**/
+	public var currentFrameTime(default, null):Float;
+
+	@:noCompletion private var updateTimer:Float = 0;
+	@:noCompletion private var pollRate:Float = 100;
 	@:noCompletion private var lastText:String = null;
 
 	public function new(x:Float = 10, y:Float = 10, color:Int = 0x000000)
@@ -44,10 +48,7 @@ class FPS extends TextField
 		mouseEnabled = false;
 		defaultTextFormat = new TextFormat("_sans", 12, color);
 		text = "FPS: ";
-
-		cacheCount = 0;
-		currentTime = 0;
-		times = [];
+		width = 200;
 
 		#if flash
 		addEventListener(Event.ENTER_FRAME, function(e)
@@ -62,32 +63,39 @@ class FPS extends TextField
 	@:noCompletion
 	private #if !flash override #end function __enterFrame(deltaTime:Float):Void
 	{
-		currentTime += deltaTime;
-		times.push(currentTime);
+		updateTimer += deltaTime;
 
-		while (times[0] < currentTime - 1000)
+		if (updateTimer > pollRate)
 		{
-			times.shift();
-		}
+			updateTimer -= pollRate;
+			currentFrameTime = deltaTime;
+			currentFPS = Math.round(1000 / deltaTime);
 
-		var currentCount = times.length;
-		currentFPS = Math.round((currentCount + cacheCount) / 2);
+			var newText = "FPS: " + currentFPS;
+			newText += " (" + roundDecimal(deltaTime, 2) + "ms)";
 
-		if (currentCount != cacheCount /*&& visible*/) {
-		var newText = "FPS: " + currentFPS;
+			#if (gl_stats && !disable_cffi && (!html5 || !canvas))
+			newText += "\ntotalDC: " + Context3DStats.totalDrawCalls();
+			newText += "\nstageDC: " + Context3DStats.contextDrawCalls(DrawCallContext.STAGE);
+			newText += "\nstage3DDC: " + Context3DStats.contextDrawCalls(DrawCallContext.STAGE3D);
+			#end
 
-		#if (gl_stats && !disable_cffi && (!html5 || !canvas))
-		newText += "\ntotalDC: " + Context3DStats.totalDrawCalls();
-		newText += "\nstageDC: " + Context3DStats.contextDrawCalls(DrawCallContext.STAGE);
-		newText += "\nstage3DDC: " + Context3DStats.contextDrawCalls(DrawCallContext.STAGE3D);
-		#end
-
-		if (newText != lastText) {
-			text = newText;
-			lastText = newText;
+			if (newText != lastText) {
+				text = newText;
+				lastText = newText;
+			}
 		}
 	}
 
-		cacheCount = currentCount;
+	// https://github.com/HaxeFlixel/flixel/blob/master/flixel/math/FlxMath.hx
+	@:noCompletion
+	private function roundDecimal(n:Float, p:Int):Float
+	{
+		var mult:Float = 1;
+		for (i in 0...p)
+		{
+			mult *= 10;
+		}
+		return Math.fround(n * mult) / mult;
 	}
 }
