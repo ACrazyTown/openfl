@@ -32,6 +32,8 @@ class FPS extends TextField
 	**/
 	public var currentFrameTime(default, null):Float;
 
+	@:noCompletion private var times:Float = 0;
+	@:noCompletion private var numTimes:Float = 0;
 	@:noCompletion private var updateTimer:Float = 0;
 	@:noCompletion private var pollRate:Float = 100;
 	@:noCompletion private var lastText:String = null;
@@ -64,15 +66,21 @@ class FPS extends TextField
 	private #if !flash override #end function __enterFrame(deltaTime:Float):Void
 	{
 		updateTimer += deltaTime;
+		times += deltaTime;
+		numTimes++;
 
 		if (updateTimer > pollRate)
 		{
+			final avg:Float = times / numTimes;
+			times = 0;
+			numTimes = 0;
+
 			updateTimer -= pollRate;
-			currentFrameTime = deltaTime;
-			currentFPS = Math.round(1000 / deltaTime);
+			currentFrameTime = avg;
+			currentFPS = Math.round(1000 / avg);
 
 			var newText = "FPS: " + currentFPS;
-			newText += " (" + roundDecimal(deltaTime, 2) + "ms)";
+			newText += " (" + roundDecimal(avg, 2) + "ms)";
 
 			#if (gl_stats && !disable_cffi && (!html5 || !canvas))
 			newText += "\ntotalDC: " + Context3DStats.totalDrawCalls();
@@ -80,7 +88,8 @@ class FPS extends TextField
 			newText += "\nstage3DDC: " + Context3DStats.contextDrawCalls(DrawCallContext.STAGE3D);
 			#end
 
-			if (newText != lastText) {
+			if (newText != lastText) 
+			{
 				text = newText;
 				lastText = newText;
 			}
